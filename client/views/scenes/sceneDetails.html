@@ -1,0 +1,12 @@
+<template name="sceneDetails">
+    
+    <div class="well">
+        <h3> {{title}} </h3>
+        <p> {{description}} </p>
+        {{#each editors}}
+            <span class="label label-info">{{username}}</span>
+        {{/each}}
+        <button type="button" class="btn btn-default">View Scene</button>
+    </div>
+    
+</template>

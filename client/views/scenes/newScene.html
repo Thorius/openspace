@@ -1,0 +1,22 @@
+<template name="newScene">
+    <div class="container">
+        <form class="new-scene-form">
+            <!-- Text area for the scene title -->
+            <div class="input-group">
+                <label class="control-label" for="sceneTitle">Scene Title</label>
+                <input type="text" name="sceneTitle" placeholder="Give this scene a title." class="form-control">
+            </div>
+            <!-- Text area for the scene description -->
+            <div class="form-group">
+                <label class="control-label" for="sceneDescription">Scene Description</label>
+                <textarea type="text" name="sceneDescription" value="" placeholder="Describe this scene." class = "form-control" rows = "3"></textarea>
+            </div>
+            <!-- Submit button -->
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" name="submitButton" value="Create" class="btn btn-primary"/>
+                </div>
+            </div>            
+        </form>
+    </div>
+</template>

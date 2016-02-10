@@ -4,12 +4,20 @@
     <div class="container">
         <h1> Viewable scenes </h1>
         <div class="row">
-            <p>Scenes I can view</p>
+            {{#each editable}}
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    {{> sceneDetails}}
+                </div>
+            {{/each}}
         </div>
         
         <h1> Editable scenes </h1>
         <div class="row"> 
-            <p>Scenes I can eddit</p>    
+            {{#each editable}}
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    {{> sceneDetails}}
+                </div>
+            {{/each}}    
         </div>
         
     </div>
