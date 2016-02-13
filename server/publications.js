@@ -7,3 +7,7 @@ Meteor.publish("scenes", function() {
         ]
     });
 });
+
+Meteor.publish("singleScene", function(id) {
+     return Objects.find({sceneId: id});
+});
