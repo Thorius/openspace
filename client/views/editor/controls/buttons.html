@@ -1,3 +1,14 @@
+<template name="buttons">
+    <div class="btn-group" role="group" aria-label="option">
+        {{> modeSelector}}
+        {{> objectSelectors}}
+        {{> lightSelector}}
+        {{> removeObject}}
+        {{> colorPicker}}
+    </div>
+</template>
+
+
 <template name="modeSelector">
     <div class="btn-group" role="group">
         <button class="btn btn-default dropdown-toggle" type="button" id="modesDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

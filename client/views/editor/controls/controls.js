@@ -18,6 +18,10 @@ function setUpSession() {
     Session.set("lastEvent", null);
     Session.set("lastMeshCreated", new Date());
     Session.set("cameraControlsOn", false);
+    Session.set("selectedObjectName", null);
+    Session.set("sliderName", null);
+    Session.set("sliderValue", 0.0);
+    Session.set("sliderChanged", false);
     initializeSettings();
 }
 
@@ -38,7 +42,7 @@ function initializeUiElements() {
         var color = event.color.toHex();
         settings.color = color;
         Session.set("settings", settings);
-        changeColor(selectedObject, color);
+        handleSlide("changeColor", color);
     });
     // Slider code.
     $(".slider").slider({
@@ -47,12 +51,10 @@ function initializeUiElements() {
     }).on('slide', throttle( function(event){
         // The slider's nested data value.
         var sliderEffectName = event.target.dataset.slider;
-        var mode = Session.get("clickMode")
-        handleSlide(sliderEffectName, mode, selectedObject, event.value);
+        handleSlide(sliderEffectName, event.value);
     }, 150)).on('slideStop', function(event){
         // Just repeat the event without the throttle.
         var sliderEffectName = event.target.dataset.slider;
-        var mode = Session.get("clickMode")
-        handleSlide(sliderEffectName, mode, selectedObject, event.value);
+        handleSlide(sliderEffectName, event.value);
     });
 }

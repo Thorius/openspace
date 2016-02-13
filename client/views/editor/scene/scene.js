@@ -1,8 +1,182 @@
+/* global Deps */
+
+// Three.js objects.
+var renderer = new THREE.WebGLRenderer();
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
+var cameraControls = new THREE.OrbitControls(camera);
+
+// Scene update variable
+var lastUpdate = null;
+
+Template.scene.onRendered(function(){
+    initiateAutoRun();
+    
+    $(window).resize(handleResize);
+    init();
+});
+
 Template.scene.events({ 
     "mouseenter": function() { 
         Session.set("cameraControlsOn", true);
+        cameraControls.enabled = true;
     },
     "mouseleave": function() { 
         Session.set("cameraControlsOn", false);
+        cameraControls.enabled = false;
+    },
+    "click #main-scene": function(event) {
+        if (!Session.get("isMouseDragged") && Session.get("clickMode")) {
+            // Properly set the last click event.
+            Session.set("lastEvent", "click");
+            var settings = Session.get("settings");
+            // Unproject click
+            var clickVector = projectClick(event);
+            
+            clickVector.unproject(camera);
+            // Save the information of unprojecting the click event in the settings variable
+            settings.unprojectedClick = clickVector;
+            settings.cameraPosition = camera.position; 
+            Session.set("settings", settings);
+            // Extract the current click event.
+            var clickMode = Session.get("clickMode");
+            var result = invoke(scene, clickMode, settings);
+            // Handle the result of the event.
+            handleEventResult(result);
+        }
+   },
+   "mousedown #main-scene": function() {
+       // Add a timeout to check if the user is holding down the button.
+       Meteor.setTimeout(function() { 
+           Session.set("isMouseDragged", true); 
+       }, 100);
+   },
+   "mouseup #main-scene": function() {
+       // Add a timeout to revert the previous change.
+       Meteor.setTimeout(function() { 
+           Session.set("isMouseDragged", false); 
+       }, 100);
+   }
+});
+
+
+function initiateAutoRun() {
+    // Get the most distant date for the first run.
+    lastUpdate = new Date(0)
+    // Deps for database access.
+    Deps.autorun(function(comp) {
+        
+        Session.set("sceneCreationTime", scene.dateCreated);
+        
+        var sceneObjects = Objects.find( {lastUpdate: {$gt : lastUpdate} } ).fetch();
+        lastUpdate = new Date(); 
+        sceneObjects.forEach(function (currentObject) {
+            var sesionTime = Session.get("lastMeshCreated").valueOf();
+            var objectTime = currentObject.lastUpdate.valueOf();
+            if (sesionTime === objectTime) {
+                return;
+            }
+            var renderedObject = scene.getObjectByName(currentObject._id);
+            if (!renderedObject) {
+                invoke(scene, "addObjects", currentObject);
+            } else if (renderedObject.lastUpdated != currentObject.lastUpdate) {
+                // Check if the updated object has been marked for removal or need to be updated.
+                if (currentObject.geometryConstructor === "none") {
+                    scene.remove(renderedObject);
+                } else {    // Update the object!
+                    invoke(scene, "updateObjects", currentObject);
+                }
+            }
+            
+        });    
+    });
+    // Deps for slider events
+    Deps.autorun(function(comp){
+        if (Session.equals("sliderChanged", true)){
+            var sliderName;
+            var objectName;
+            var value;
+            Deps.nonreactive(function () {
+                sliderName = Session.get("sliderEffect");
+                Session.set("sliderChanged", false);
+                objectName = Session.get("selectedObjectName");
+                value = Session.get("sliderValue");
+            });
+            if (!Session.equals("selectedObjectName", null)) {
+                var selectedMesh = scene.getObjectByName(objectName);
+                var updateInfo = applyEffectToMesh(selectedMesh, sliderName, value);
+                Meteor.call("updateMesh", objectName, updateInfo , function(error, success) { 
+                    if (error) { 
+                        console.log("Mesh update failed!", error); 
+                    } 
+                });
+            }
+        }
+    });
+}
+
+function init() { 
+    
+    renderer.setClearColor(0x000000, 1.0);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    camera.position.x = 15;
+    camera.position.y = 16;
+    camera.position.z = 13;
+    camera.lookAt(scene.position);
+    
+    //addGridHelper();
+    //addAxisHelper();
+    
+    //addPlane();
+    //addStaticCube();
+    addSpotLight();
+    
+    $("#main-scene").append(renderer.domElement);
+    // Call the render function
+    render();
+}
+
+function render() {
+    cameraControls.update();
+    requestAnimationFrame(render);
+    renderer.render(scene, camera);
+}
+
+function handleResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function addSpotLight() {
+    var spotLight = new THREE.SpotLight(0xffffff);
+    spotLight.position.set(10, 20, 20);
+    spotLight.shadowCameraNear = 10;
+    spotLight.shadowCameraFar = 100;
+    spotLight.castShadow = true;
+    scene.add(spotLight);
+}
+
+// Function to calculate the unprojected vector based on a click.
+function projectClick(event) {
+    // Grab the scene.
+    var sceneContainer = $("#main-scene");
+    // The offset is determined by the position of the canvas and the amount the window has scrolled.
+    var offsetX = sceneContainer.offset().left - $(window).scrollLeft();
+    var offsetY = sceneContainer.position().top - $(window).scrollTop();
+    // Calculate the position of the vector
+    var x = ((event.clientX - offsetX)/window.innerWidth)*2-1;
+    var y = -((event.clientY - offsetY)/window.innerHeight)*2+1;
+    var z = 0.5;
+    return new THREE.Vector3(x, y, z);
+}
+
+function handleEventResult(result) {
+    var lastEvent = Session.get("lastEvent");
+    if (lastEvent === "click") {
+        Session.set("selectedObjectName", result);
+    } else if (lastEvent === "drag") {
+        //handleDrag(Session.get("selectedObjectName"), result);
     }
-}); 
+}
