@@ -1,0 +1,12 @@
+#main-scene {
+    margin: 0px;
+    overflow: hidden;
+}
+
+.color-picker-label:hover {
+    text-decoration: none;
+}
+
+.color-picker {
+    max-width: 150px;
+}

@@ -1,0 +1,48 @@
+<template name="modeSelector">
+    <div class="btn-group" role="group">
+        <button class="btn btn-default dropdown-toggle" type="button" id="modesDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Modes
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="modesDropdownMenu">
+            <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="selectObjects">Select Objects</a></li>
+            <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="addObjects">Add Objects</a></li>
+            <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="selectLights">Select Lights</a></li>
+            <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="addLights">Add Lights</a></li>
+        </ul>
+    </div>
+</template>
+
+<template name="objectSelectors">
+    <div class="btn-group" role="group">
+        <button class="btn btn-default dropdown-toggle" type="button" id="objectsDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Objects
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="objectsDropdownMenu">
+            <li><a href="#" type="button" class="btn btn-default js-object-button" data-object="cube">Add Cube</a></li>
+            <li><a href="#" type="button" class="btn btn-default js-object-button" data-object="sphere">Add Sphere</a></li>
+            <li><a href="#" type="button" class="btn btn-default js-object-button" data-object="torus">Add Torus</a></li>
+        </ul>
+    </div>
+</template>
+
+<template name="lightSelector">
+    <div class="btn-group" role="group">
+        <button class="btn btn-default dropdown-toggle" type="button" id="lightsDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Lights
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="lightsDropdownMenu">
+            <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="point">Add Point Light</a></li>
+            <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="directional">Add Directional</a></li>
+            <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="spotlight">Add Spotlight</a></li>
+        </ul>
+    </div>
+</template>
+
+<template name="removeObject">
+    <div class="btn-group">
+        <button class="btn btn-warning js-remove-object-button">Remove Selected Object</button>
+    </div> 
+</template>
