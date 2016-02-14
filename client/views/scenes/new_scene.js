@@ -12,13 +12,13 @@ Template.newScene.events({
              dateCreated:   new Date()
          };
          
-         Meteor.call("addNewScene", scene, function (error, result) {
+         Meteor.call("addNewScene", scene, function (error, success) {
             if (error) {
-                console.log(error);
+                console.log("Could not add a new scene!",error);
                 return;
             }
             // Route to the new scene.
-            Router.go("/scene/" + result, {_id: result});
+            Router.go("/scene/" + success, {_id: success});
          });
     }
 }); 

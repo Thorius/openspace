@@ -11,14 +11,18 @@ handleSlide = function (slider, value) {
     Session.set("settings", settings);
     
     Session.set("sliderValue", scaledValue);
-    Session.set("sliderEffect", slider)
+    Session.set("sliderEffect", slider);
     Session.set("sliderChanged", true);
     
 }
 
 applyEffectToMesh = function (mesh, slider, value) {
-    var sliderEffect = sliderEffects[slider];
-    return sliderEffect(mesh, value);
+    if (slider === "changeColor") {
+        return meshChangeColor(mesh, value);
+    } else {
+        var sliderEffect = sliderEffects[slider];
+        return sliderEffect(mesh, value);
+    }
 }
 
 
@@ -64,7 +68,12 @@ function rotateZ(object, value) {
 }
 
 function changeColor(object, color) {
-    object.color = new THREE.Color(color);
+    object.color = color;
+    return { "color": color };
+}
+
+function meshChangeColor(mesh, color) {
+    mesh.color = new THREE.Color(color);
     return { "color": color };
 }
 

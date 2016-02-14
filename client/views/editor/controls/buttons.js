@@ -25,8 +25,7 @@ Template.buttons.events({
         event.preventDefault();
         var selectedObjectName = Session.get("selectedObjectName");
         if (selectedObjectName) {
-            //scene.remove(selectedObject);
-            markMeshForRemoval(scene, selectedObjectName);
+            markMeshForRemoval(selectedObjectName);
         }
     }
 }); 

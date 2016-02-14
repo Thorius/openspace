@@ -1,14 +1,14 @@
-Template.controls.onRendered(function() {
-    Meteor.setTimeout(function() { 
+Template.controls.onCreated(function() {
+    //Meteor.setTimeout(function() { 
          setUpSession();
-    }, 100);
+    //}, 100);
 });
 
 
-Template.controls.onCreated(function() {
-    Meteor.setTimeout(function() { 
+Template.controls.onRendered(function() {
+    //Meteor.setTimeout(function() { 
          initializeUiElements();
-    }, 100);
+    //}, 100);
 });
 
 function setUpSession() {
@@ -16,7 +16,7 @@ function setUpSession() {
     Session.set("clickMode", null);
     Session.set("dragEventName", null);
     Session.set("lastEvent", null);
-    Session.set("lastMeshCreated", new Date());
+    Session.set("lastMeshCreated", new Date(0));
     Session.set("cameraControlsOn", false);
     Session.set("selectedObjectName", null);
     Session.set("sliderName", null);
@@ -28,7 +28,7 @@ function setUpSession() {
 function initializeSettings() {
     var settings = {};
     settings.addToDb = true;
-    settings.color = chroma('#FFFFFF').hex();
+    settings.color = chroma("#FFFFFF").hex();
     var defaultRotation = (2 * Math.PI * 0.5);
     settings.rotation = { x: defaultRotation, y: defaultRotation, z: defaultRotation };
     settings.scale = { x: 1.0, y: 1.0, z: 1.0 };
@@ -39,10 +39,10 @@ function initializeUiElements() {
     // Color picker code.
     $(".color-picker").colorpicker().on('changeColor.color-picker', function(event){
         var settings = Session.get("settings");
-        var color = event.color.toHex();
-        settings.color = color;
+        var hexColor = event.color.toHex();
+        settings.color = hexColor;
         Session.set("settings", settings);
-        handleSlide("changeColor", color);
+        handleSlide("changeColor", hexColor);
     });
     // Slider code.
     $(".slider").slider({

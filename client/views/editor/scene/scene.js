@@ -1,13 +1,23 @@
 /* global Deps */
 
 // Three.js objects.
-var renderer = new THREE.WebGLRenderer();
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
-var cameraControls = new THREE.OrbitControls(camera);
+var renderer;// = new THREE.WebGLRenderer();
+var scene;// = new THREE.Scene();
+var camera;// = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
+var cameraControls;// = new THREE.OrbitControls(camera);
 
 // Scene update variable
-var lastUpdate = null;
+var lastUpdate;// = null;
+
+Template.scene.onCreated(function() {
+    // Set up Three.js objects
+    renderer = new THREE.WebGLRenderer();
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
+    cameraControls = new THREE.OrbitControls(camera);
+    lastUpdate = null;
+
+})
 
 Template.scene.onRendered(function(){
     // Add the current scene id to the Three.js scene object
@@ -65,7 +75,7 @@ Template.scene.events({
 
 function initiateAutoRun() {
     // Get the most distant date for the first run.
-    lastUpdate = new Date(0)
+    lastUpdate = new Date(0);
     // Deps for database access.
     Deps.autorun(function(comp) {
         
@@ -93,7 +103,7 @@ function initiateAutoRun() {
             
         });    
     });
-    // Deps for slider events
+    // Deps for slider events.
     Deps.autorun(function(comp){
         if (Session.equals("sliderChanged", true)){
             var sliderName;
@@ -105,7 +115,7 @@ function initiateAutoRun() {
                 objectName = Session.get("selectedObjectName");
                 value = Session.get("sliderValue");
             });
-            if (!Session.equals("selectedObjectName", null)) {
+            if (!Session.equals("selectedObjectName", undefined) && !Session.equals("selectedObjectName", null)) {
                 var selectedMesh = scene.getObjectByName(objectName);
                 var updateInfo = applyEffectToMesh(selectedMesh, sliderName, value);
                 Meteor.call("updateMesh", objectName, updateInfo , function(error, success) { 
@@ -159,6 +169,11 @@ function addSpotLight() {
     spotLight.shadowCameraFar = 100;
     spotLight.castShadow = true;
     scene.add(spotLight);
+}
+
+function addAmbientLight() {
+    var light = new THREE.AmbientLight( 0x404040 ); 
+    scene.add(light);
 }
 
 // Function to calculate the unprojected vector based on a click.

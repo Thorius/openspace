@@ -11,9 +11,11 @@ invoke = function (scene, mode, settings) {
 
 // Function for updating the Objects collection in such a way as to mark the selected
 // object for later removal.
-markMeshForRemoval = function (scene, mesh) {
-    Objects.update(mesh.name, {
-        $set: {geometryConstructor: "none", lastUpdate: new Date()}
+markMeshForRemoval = function (meshId) {
+    Meteor.call("markMeshForRemoval", meshId, function(error, success) { 
+        if (error) { 
+            console.log("Could not mark mesh for removal", error); 
+        }
     });
 }
 
@@ -52,12 +54,12 @@ function addObject(scene, settings) {
     if (settings.addToDb) {
         objectDescriptor = { };
     }
-    // Simply skip elements marked for removal
-    if (settings.geometryConstructor === "none") {
+    var geometryContructor = geometryFactory[settings.geometryConstructor];
+    if (!geometryContructor) {
         return;
     }
-    var geometryContructor = geometryFactory[settings.geometryConstructor];
     var geometry = geometryContructor(settings, objectDescriptor);
+    // Simply skip elements marked for removal or if no constructor is selected.
     
     // TODO: Use a mesh factory
     var materialConstructor = createMeshLambertMaterial;
@@ -67,6 +69,7 @@ function addObject(scene, settings) {
     
     calculateObjectPosition(settings);
     applyMeshTransforms(mesh, settings, objectDescriptor);
+    applyMaterialTransforms(mesh, settings, objectDescriptor);
     
     if (settings.addToDb) {
         objectDescriptor.sceneId = scene._id;
@@ -75,7 +78,7 @@ function addObject(scene, settings) {
                 console.log("Could not add mesh to collection.", error); 
             } 
             if (success) { 
-                 mesh.name;
+                 mesh.name = success;
                  scene.add(mesh);
             } 
         });    
@@ -96,7 +99,7 @@ function addLight(scene, settings) {
 function updateObject(scene, settings) {
     var mesh = scene.getObjectByName(settings._id);
     applyMeshTransforms(mesh, settings, null);
-    applyMaterialTransforms(mesh, settings);
+    applyMaterialTransforms(mesh, settings, null);
 }
 
 function updateLight(scene, settings) {
@@ -135,14 +138,14 @@ function createTorus(settings, objectDescriptor) {
 }
 
 function createMeshLambertMaterial(settings, objectDescriptor) {
-    var material = new THREE.MeshLambertMaterial({color: settings.color});
-    if (objectDescriptor) {
-        objectDescriptor.color = settings.color;
-    }
+    var material = new THREE.MeshLambertMaterial();
     return material;
 }
 
-function applyMaterialTransforms(mesh, settings) {
+function applyMaterialTransforms(mesh, settings, objectDescriptor) {
+    if (objectDescriptor) {
+        objectDescriptor.color = settings.color;
+    }
     mesh.material.color = new THREE.Color(settings.color);
 }
 
