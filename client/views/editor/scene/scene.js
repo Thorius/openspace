@@ -164,13 +164,22 @@ function handleResize() {
 }
 
 function addSpotLight() {
+    var pointLight = new THREE.PointLight(0xffffff, 1, 200);
+    pointLight.castShadow = true;
+    pointLight.position.set(20, 20, 20);
+    var pointLight2 = new THREE.PointLight(0xffffff, 1, 100);
+    //pointLight2.castShadow = true;
+    pointLight2.position.set(-20, 20, 20);
+    scene.add(pointLight);
+    //scene.add(pointLight2);
+    
     var spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.intensity = 1.5;
+    spotLight.intensity = 1.0;
     spotLight.position.set(10, 20, 20);
     spotLight.shadowCameraNear = 10;
     spotLight.shadowCameraFar = 200;
     spotLight.castShadow = true;
-    scene.add(spotLight);
+    //scene.add(spotLight);
     
     /*var spotLight2 = new THREE.SpotLight(0xffffff);
     spotLight2.position.set(10, -20, -20);

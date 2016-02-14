@@ -2,19 +2,30 @@
     
     <!-- TODO: Add bs3 collumns -->
     <div class="container">
+        {{#if currentUser}}
         
-        <h1> Editable scenes </h1>
+        <h1> My Private Scenes </h1>
         <div class="row"> 
-            {{#each editable}}
+            {{#each private}}
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    {{> sceneDetails}}
+                </div>
+            {{/each}}    
+        </div>
+        <h1> My Public Scenes </h1>
+        <div class="row"> 
+            {{#each publicMine}}
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                     {{> sceneDetails}}
                 </div>
             {{/each}}    
         </div>
         
-        <h1> Viewable scenes </h1>
+        {{/if}}
+        
+        <h1> Public Scenes </h1>
         <div class="row">
-            {{#each viewable}}
+            {{#each publicOthers}}
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                     {{> sceneDetails}}
                 </div>

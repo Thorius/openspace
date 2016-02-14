@@ -4,3 +4,18 @@
         <p> {{description}} </p>
     </div>
 </template>
+
+<template name="sceneDescriptionPanel">
+    <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapseDescription">Description</a>
+                    </h4>
+                </div>
+                <div id="collapseDescription" class="panel-collapse collapse">
+                <div class="panel-body">{{> sceneDescription}}</div>
+                </div>
+            </div>
+        </div> 
+</template>

@@ -18,3 +18,18 @@
         </div>
     </div>
 </template>
+
+<template name="controlsPane">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapseControls">Controls Panel</a>
+                </h4>
+            </div>
+            <div id="collapseControls" class="panel-collapse collapse">
+            <div class="panel-body">{{> controls}}</div>
+            </div>
+        </div>
+    </div> 
+</template>

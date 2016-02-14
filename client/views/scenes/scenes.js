@@ -1,8 +1,11 @@
 Template.scenes.helpers({ 
-    editable: function() { 
-         return Scenes.find( { createdBy: Meteor.userId() } );
+    private: function() { 
+         return Scenes.find( { private: true } );
     }, 
-    viewable: function() { 
+    publicMine: function () {
+        return Scenes.find( { createdBy: Meteor.userId(), private: false } );
+    },
+    publicOthers: function() { 
          return Scenes.find( { createdBy: { $ne: Meteor.userId() } } );
     }
 }); 
