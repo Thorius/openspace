@@ -2,7 +2,7 @@
     <div class="btn-group" role="group" aria-label="option">
         {{> modeSelector}}
         {{> objectSelectors}}
-        {{> lightSelector}}
+        <!-- {{> lightSelector}} -->
         {{> removeObject}}
         {{> colorPicker}}
     </div>
@@ -18,8 +18,8 @@
         <ul class="dropdown-menu" aria-labelledby="modesDropdownMenu">
             <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="selectObjects">Select Objects</a></li>
             <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="addObjects">Add Objects</a></li>
-            <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="selectLights">Select Lights</a></li>
-            <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="addLights">Add Lights</a></li>
+            <!-- <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="selectLights">Select Lights</a></li> -->
+            <!-- <li><a href="#" type="button" class="btn btn-default js-mode-button" data-mode="addLights">Add Lights</a></li> -->
         </ul>
     </div>
 </template>
@@ -46,7 +46,8 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="lightsDropdownMenu">
             <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="point">Add Point Light</a></li>
-            <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="directional">Add Directional</a></li>
+            <!-- <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="ambient">Add Ambient Light</a></li> -->
+            <!-- <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="directional">Add Directional</a></li> -->
             <li><a href="#" type="button" class="btn btn-default js-light-button" data-light="spotlight">Add Spotlight</a></li>
         </ul>
     </div>

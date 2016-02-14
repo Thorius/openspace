@@ -52,14 +52,14 @@ function selectObject(scene, settings) {
 function addObject(scene, settings) {
     var objectDescriptor = null;
     if (settings.addToDb) {
-        objectDescriptor = { };
+        objectDescriptor = { mode: "addObjects" };
     }
     var geometryContructor = geometryFactory[settings.geometryConstructor];
+    // Simply skip elements marked for removal or if no constructor is selected.
     if (!geometryContructor) {
         return;
     }
     var geometry = geometryContructor(settings, objectDescriptor);
-    // Simply skip elements marked for removal or if no constructor is selected.
     
     // TODO: Use a mesh factory
     var materialConstructor = createMeshLambertMaterial;
@@ -93,7 +93,35 @@ function selectLight(scene, settings) {
 }
 
 function addLight(scene, settings) {
-    // TODO:
+    var lightDescriptor = null;
+    if (settings.addToDb) {
+        lightDescriptor = { mode: "addLights"};
+    }
+    var lightContructor = lightFactory[settings.lightConstructor];
+    // Simply skip elements marked for removal or if no constructor is selected.
+    if (!lightContructor) {
+        return;
+    }
+    var light = lightContructor(settings, lightDescriptor);
+    
+    calculateObjectPosition(settings);
+    applyMeshTransforms(light, settings, lightDescriptor);
+    
+    if (settings.addToDb) {
+        lightDescriptor.sceneId = scene._id;
+        Meteor.call("addMesh", lightDescriptor, function(error, success) { 
+            if (error) { 
+                console.log("Could not add light to collection.", error); 
+            } 
+            if (success) { 
+                 light.name = success;
+                 scene.add(light);
+            } 
+        });    
+    } else {
+        light.name = settings._id;
+        scene.add(light);
+    }
 }
 
 function updateObject(scene, settings) {
@@ -135,6 +163,51 @@ function createTorus(settings, objectDescriptor) {
         objectDescriptor.geometryConstructor = "torus";
     }
     return geometry;
+}
+
+var lightFactory = {
+    "point"      :   createPoint,
+    "ambient"    :   createAmbient,
+    "spotlight"  :   createSpotLight
+};
+
+function createPoint(settings, lightDescriptor) {
+    var light = new THREE.PointLight(0xffffff, 1, 100);
+    //light.shadowCameraNear = 0.1;
+    //light.shadowCameraFar = 100;
+    light.castShadow = true;
+    light.color = new THREE.Color(settings.color);
+    if (lightDescriptor) {
+        lightDescriptor.color = settings.color;
+        lightDescriptor.lightConstructor = "point";
+    }
+    return light;
+}
+
+function createSpotLight(settings, lightDescriptor) {
+    var light = new THREE.SpotLight(0xffffff);
+    light.shadowCameraNear = 0.1;
+    light.shadowCameraFar = 100;
+    light.castShadow = true;
+    light.color = new THREE.Color(settings.color);
+    if (lightDescriptor) {
+        lightDescriptor.color = settings.color;
+        lightDescriptor.lightConstructor = "spotlight";
+    }
+    return light;
+}
+
+function createAmbient(settings, lightDescriptor) {
+    var light = new THREE.AmbientLight(0xffffff);
+    //light.shadowCameraNear = 10;
+    //light.shadowCameraFar = 100;
+    //light.castShadow = true;
+    light.color = new THREE.Color(settings.color);
+    if (lightDescriptor) {
+        lightDescriptor.color = settings.color;
+        lightDescriptor.lightConstructor = "ambient";
+    }
+    return light;
 }
 
 function createMeshLambertMaterial(settings, objectDescriptor) {

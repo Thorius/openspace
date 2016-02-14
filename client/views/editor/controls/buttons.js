@@ -18,7 +18,7 @@ Template.buttons.events({
         var lightName = $(event.currentTarget).data("light");
         // Store the name of the object constructor in the settings variable.
         var settings = Session.get("settings");
-        settings.lightTypeConstructor = lightName;
+        settings.lightConstructor = lightName;
         Session.set("settings", settings);
     },
     "click .js-remove-object-button": function(event, template) {

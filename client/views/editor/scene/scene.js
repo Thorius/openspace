@@ -2,7 +2,7 @@
 
 // Three.js objects.
 var renderer;// = new THREE.WebGLRenderer();
-var scene;// = new THREE.Scene();
+var scene = null;// = new THREE.Scene();
 var camera;// = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
 var cameraControls;// = new THREE.OrbitControls(camera);
 
@@ -91,7 +91,7 @@ function initiateAutoRun() {
             }
             var renderedObject = scene.getObjectByName(currentObject._id);
             if (!renderedObject) {
-                invoke(scene, "addObjects", currentObject);
+                invoke(scene, currentObject.mode, currentObject);
             } else if (renderedObject.lastUpdated != currentObject.lastUpdate) {
                 // Check if the updated object has been marked for removal or need to be updated.
                 if (currentObject.geometryConstructor === "none") {
@@ -144,6 +144,7 @@ function init() {
     //addPlane();
     //addStaticCube();
     addSpotLight();
+    addAmbientLight();
     
     $("#main-scene").append(renderer.domElement);
     // Call the render function
@@ -164,11 +165,19 @@ function handleResize() {
 
 function addSpotLight() {
     var spotLight = new THREE.SpotLight(0xffffff);
+    spotLight.intensity = 1.5;
     spotLight.position.set(10, 20, 20);
     spotLight.shadowCameraNear = 10;
-    spotLight.shadowCameraFar = 100;
+    spotLight.shadowCameraFar = 200;
     spotLight.castShadow = true;
     scene.add(spotLight);
+    
+    /*var spotLight2 = new THREE.SpotLight(0xffffff);
+    spotLight2.position.set(10, -20, -20);
+    spotLight2.shadowCameraNear = 10;
+    spotLight2.shadowCameraFar = 100;
+    spotLight2.castShadow = true;
+    scene.add(spotLight2);*/
 }
 
 function addAmbientLight() {
