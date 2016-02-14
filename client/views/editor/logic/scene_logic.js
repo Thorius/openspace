@@ -81,7 +81,7 @@ function addObject(scene, settings) {
         });    
     } else {
         mesh.name = settings._id;
-        addToScene(mesh);
+        scene.add(mesh);
     }
 }
 

@@ -10,6 +10,9 @@ var cameraControls = new THREE.OrbitControls(camera);
 var lastUpdate = null;
 
 Template.scene.onRendered(function(){
+    // Add the current scene id to the Three.js scene object
+    scene._id = Session.get("currentSceneId");
+    
     initiateAutoRun();
     
     $(window).resize(handleResize);

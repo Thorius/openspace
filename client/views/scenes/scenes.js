@@ -4,10 +4,7 @@ Template.scenes.helpers({
     }, 
     viewable: function() { 
          return Scenes.find( { createdBy: { $ne: Meteor.userId() } } );
-    }, 
-    destroyed: function() { 
-         
-    }, 
+    }
 }); 
 
 Template.scenes.events({ 
