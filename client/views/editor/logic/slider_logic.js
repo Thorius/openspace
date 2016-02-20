@@ -34,7 +34,10 @@ var sliderEffects = {
     "rotateX"       : rotateX,
     "rotateY"       : rotateY,
     "rotateZ"       : rotateZ,
-    "changeColor"   : changeColor
+    "changeColor"   : changeColor,
+    "positionX"     : movePositionX,
+    "positionY"     : movePositionY,
+    "positionZ"     : movePositionZ
 };
 
 function changeSizeX(object, value) {
@@ -77,6 +80,20 @@ function meshChangeColor(mesh, color) {
     return { "color": color };
 }
 
+function movePositionX(mesh, value) {
+    mesh.position.x += value;
+    return { "position.x" : mesh.position.x };
+}
+
+function movePositionY(mesh, value) {
+    mesh.position.y += value;
+    return { "position.y" : mesh.position.y };
+}
+
+function movePositionZ(mesh, value) {
+    mesh.position.z += value;
+    return { "position.z" : mesh.position.z };
+}
 var sliderValueNormalizer = {
     "sizeX"         : sizeNormalizer,
     "sizeY"         : sizeNormalizer,
@@ -98,11 +115,4 @@ function rotationNormalizer(value) {
 function colorNormalizer(value) {
     // Identity operation
     return value;
-}
-
-// Function to commit the changes to the MongoDB
-function commitChangesToDataBase(mesh, update) {
-    var meshId = mesh.name;
-    update.lastUpdate = new Date();
-    Objects.update(meshId, {$set : update});
 }

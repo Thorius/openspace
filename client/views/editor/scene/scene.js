@@ -5,6 +5,7 @@ var renderer;// = new THREE.WebGLRenderer();
 var scene = null;// = new THREE.Scene();
 var camera;// = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
 var cameraControls;// = new THREE.OrbitControls(camera);
+var lookAtPosition = new THREE.Vector3(0, 0, 0);
 
 // Scene update variable
 var lastUpdate;// = null;
@@ -16,12 +17,41 @@ Template.scene.onCreated(function() {
     camera = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
     cameraControls = new THREE.OrbitControls(camera);
     lastUpdate = null;
-
 })
 
 Template.scene.onRendered(function(){
     // Add the current scene id to the Three.js scene object
     scene._id = Session.get("currentSceneId");
+    // Set up the key press events
+    $(document).keypress(function (event) {
+        // Key codes:
+        //   119    -> w    -> forward
+        //   97     -> a    -> left
+        //   115    -> s    -> back
+        //   100    -> d    -> right
+        switch (event.which) {
+            case 119:   // Forward
+                moveObject("positionX", 1);
+                break;
+            case 97:    // Left
+                moveObject("positionX", -1);
+                break;
+            case 115:   // Back
+                moveObject("positionY", 1);
+                break;
+            case 100:   //Right
+                moveObject("positionY", -1);
+                break;
+            case 82:
+                moveObject("positionZ", 1);
+                break;
+            case 70:
+                moveObject("positionZ", -1);
+                break;
+            default:
+                break;
+        }
+    });
     
     initiateAutoRun();
     
@@ -71,7 +101,6 @@ Template.scene.events({
        }, 100);
    }
 });
-
 
 function initiateAutoRun() {
     // Get the most distant date for the first run.
