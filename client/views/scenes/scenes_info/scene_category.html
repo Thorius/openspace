@@ -1,0 +1,12 @@
+<template name="sceneCategory">
+    <h1> {{categoryTitle}} </h1>
+    
+    <div class="row">
+        {{#each scenesList}}
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                {{> sceneDetails}}
+            </div>
+        {{/each}}
+    </div>
+    
+</template>

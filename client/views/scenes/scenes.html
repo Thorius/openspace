@@ -1,36 +1,15 @@
-<template name="scenes">
-    
-    <!-- TODO: Add bs3 collumns -->
+<template name="scenes">  
     <div class="container">
-        {{#if currentUser}}
-        
-        <h1> My Private Scenes </h1>
-        <div class="row"> 
-            {{#each private}}
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    {{> sceneDetails}}
-                </div>
-            {{/each}}    
-        </div>
-        <h1> My Public Scenes </h1>
-        <div class="row"> 
-            {{#each publicMine}}
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    {{> sceneDetails}}
-                </div>
-            {{/each}}    
-        </div>
-        
-        {{/if}}
-        
-        <h1> Public Scenes </h1>
-        <div class="row">
-            {{#each publicOthers}}
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    {{> sceneDetails}}
-                </div>
-            {{/each}}
-        </div>
-    </div>
 
+        {{#if currentUser}}
+            {{#each allSceneCategories }}
+                {{> sceneCategory}}
+            {{/each}}
+        {{else}}
+            {{#with publicOthers}}
+                {{> sceneCategory}}
+            {{/with}}
+        {{/if}}
+ 
+    </div>
 </template>

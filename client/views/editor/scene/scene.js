@@ -23,12 +23,7 @@ Template.scene.onRendered(function(){
     scene._id = Session.get("currentSceneId");
     // Set up the key press events
     $(document).keypress(function (event) {
-        // Key codes:
-        //   119    -> w    -> forward
-        //   97     -> a    -> left
-        //   115    -> s    -> back
-        //   100    -> d    -> right
-        console.log(event.which);
+        // Dispatch based on a specific key.
         switch (event.which) {
             case 87:    // Forward
             case 119:   
