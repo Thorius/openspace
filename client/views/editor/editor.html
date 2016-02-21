@@ -2,7 +2,9 @@
     
     <div class="container">
         {{> sceneDescriptionPanel}}
-        {{> controlsPane}}
+        {{#if canEdit}}
+            {{> controlsPane}}
+        {{/if}}
     </div>
     
     {{> scene}}

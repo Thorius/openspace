@@ -6,7 +6,11 @@ Template.scenes.helpers({
         return Scenes.find( { ownerId: Meteor.userId(), private: false } );
     },
     publicOthers: function() { 
-         var publicOtherFilter = { ownerId: { $ne: Meteor.userId() } };
+         var publicOtherFilter = { $and: [
+            { ownerId: { $ne: Meteor.userId() } },
+            { editors: { $ne: Meteor.userId() } }
+         ] };
+             
          var publicOther = {categoryTitle: "Public Scenes ", searchFilter: publicOtherFilter };
          return publicOther;
     },
@@ -29,7 +33,10 @@ Template.scenes.helpers({
         var publicEditor = {categoryTitle: "Public Scenes where I am an Editor", searchFilter: publicEditorFilter };
         categoryDescriptors.push(publicEditor);
         // Descriptor for the other public scenes
-        var publicOtherFilter = { ownerId: { $ne: Meteor.userId() } };
+        var publicOtherFilter = { $and: [
+            { ownerId: { $ne: Meteor.userId() } },
+            { editors: { $ne: Meteor.userId() } }
+         ] };
         var publicOther = {categoryTitle: "Public Scenes ", searchFilter: publicOtherFilter };
         categoryDescriptors.push(publicOther);
         return categoryDescriptors;

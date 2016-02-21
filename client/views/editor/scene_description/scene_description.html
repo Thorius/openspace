@@ -2,6 +2,16 @@
      <div class="well well-lg">
         <h2> {{title}} </h2>
         <p> {{description}} </p>
+        <div class="well">
+            <h4>Owner</h4>
+            {{#with owner}}
+                <span class="label label-success">{{username}}</span>
+            {{/with}}
+            <h4>Editors</h4>
+            {{#each editors}}
+                <span class="label label-info">{{username}}</span>
+            {{/each}}
+        </div>
     </div>
 </template>
 

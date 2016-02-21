@@ -1,0 +1,28 @@
+<template name="sceneDetails">
+    
+    <div class="well">
+        <h3> {{title}} </h3>
+        <p> {{description}} </p>    
+        <div class="well">
+            {{#with owner}}
+                <span class="label label-success">{{username}}</span>
+            {{/with}}
+            {{#each editors}}
+                <span class="label label-info">{{username}}</span>
+            {{/each}}
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <a href="/scene/{{_id}}" type="button" class="btn btn-info btn-block">View Scene</a>
+            </div>
+        </div>
+        {{#if isOwner}}
+            <button type="button" class="btn btn-default pull-left js-add-editors-modal">Add New Editor</button>
+            <button type="button" class="btn btn-default pull-right js-remove-editors-modal">Remove Editor</button>
+            <button type="button" class="btn btn-default btn-block js-toggle-private">{{togglePrivateText}}</button>
+            <button type="button" class="btn btn-warning btn-block js-delete-scene">Delete Scene</button>
+        {{/if}}
+        
+    </div>
+    
+</template>
