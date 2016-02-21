@@ -1,7 +1,7 @@
 <template name="controls">
     <div class="row">
         <!-- First row of controls -->
-        <div class="col-xs-12">    
+        <div class="col-xs-12 button-padding">    
             {{> buttons}}      
         </div>
          <!-- Second row of controls -->
@@ -14,6 +14,11 @@
         <div class="col-xs-6" aria-label="sliders">
             <div class="well">
                 {{> rotationSliders}} 
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="well">
+                <p> Note: Once an object is selected you can move it around with the "wasdrf" keys.</p>
             </div>
         </div>
     </div>

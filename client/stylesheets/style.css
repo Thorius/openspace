@@ -10,3 +10,7 @@
 .color-picker {
     max-width: 150px;
 }
+
+.button-padding {
+    margin-bottom: 5px;
+}
