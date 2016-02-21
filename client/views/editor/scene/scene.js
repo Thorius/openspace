@@ -60,6 +60,13 @@ Template.scene.onRendered(function(){
     init();
 });
 
+Template.scene.onDestroyed(function(){
+    // Call a method to remove all of the objects from the current scene that have been marked for removal.
+    var currentSceneId = Session.get("currentSceneId");
+    var removeFilter = { sceneId: currentSceneId, geometryConstructor: "none" };
+    Meteor.call("removeMeshes", removeFilter);
+});
+
 Template.scene.events({ 
     "mouseenter": function() { 
         Session.set("cameraControlsOn", true);
