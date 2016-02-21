@@ -3,10 +3,10 @@ Template.scenes.helpers({
          return Scenes.find( { private: true } );
     }, 
     publicMine: function () {
-        return Scenes.find( { createdBy: Meteor.userId(), private: false } );
+        return Scenes.find( { ownerId: Meteor.userId(), private: false } );
     },
     publicOthers: function() { 
-         return Scenes.find( { createdBy: { $ne: Meteor.userId() } } );
+         return Scenes.find( { ownerId: { $ne: Meteor.userId() } } );
     }
 }); 
 

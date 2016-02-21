@@ -5,7 +5,6 @@ var renderer;// = new THREE.WebGLRenderer();
 var scene = null;// = new THREE.Scene();
 var camera;// = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
 var cameraControls;// = new THREE.OrbitControls(camera);
-var lookAtPosition = new THREE.Vector3(0, 0, 0);
 
 // Scene update variable
 var lastUpdate;// = null;
@@ -29,24 +28,31 @@ Template.scene.onRendered(function(){
         //   97     -> a    -> left
         //   115    -> s    -> back
         //   100    -> d    -> right
+        console.log(event.which);
         switch (event.which) {
-            case 119:   // Forward
+            case 87:    // Forward
+            case 119:   
                 moveObject("positionX", 1);
                 break;
-            case 97:    // Left
+            case 83:    // Back
+            case 115:
                 moveObject("positionX", -1);
                 break;
-            case 115:   // Back
-                moveObject("positionY", 1);
-                break;
-            case 100:   //Right
-                moveObject("positionY", -1);
-                break;
-            case 82:
+            case 65:    // Left
+            case 97:    
                 moveObject("positionZ", 1);
                 break;
-            case 70:
+            case 68:    //Right
+            case 100:   
                 moveObject("positionZ", -1);
+                break;
+            case 82:    //Up
+            case 114: 
+                moveObject("positionY", 1);                
+                break;
+            case 70:    //Down
+            case 102: 
+                moveObject("positionY", -1);
                 break;
             default:
                 break;

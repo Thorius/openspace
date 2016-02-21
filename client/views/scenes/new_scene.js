@@ -8,7 +8,7 @@ Template.newScene.events({
              title:         $(event.target).find("[name=sceneTitle]").val(),
              description:   $(event.target).find("[name=sceneDescription]").val(),
              private:       $(event.target).find("[name=scenePrivacy]").is(':checked'),
-             //editors:       [],
+             editors:       [],
              dateCreated:   new Date()
          };
          

@@ -1,0 +1,53 @@
+<template name="addEditorsModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Editor</h4>
+                </div>
+                <div class="modal-body">
+                    {{#each showNonEditors}}
+                        <div class="row" id="{{_id}}">
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <p>{{username}}</p> 
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <button type="button" class="btn btn-default btn-block js-add-editor">Add</button>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="removeEditorsModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Remove Editor</h4>
+                </div>
+                <div class="modal-body">
+                    {{#each currentEditors}}
+                        <div class="row" id="{{_id}}">
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <p>{{username}}</p> 
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <button type="button" class="btn btn-default btn-block js-remove-editor">Remove</button>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
