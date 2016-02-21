@@ -177,9 +177,9 @@ function init() {
     
     //addGridHelper();
     //addAxisHelper();
-    
     //addPlane();
     //addStaticCube();
+    
     addSpotLight();
     addAmbientLight();
     

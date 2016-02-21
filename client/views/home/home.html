@@ -8,12 +8,16 @@
                 <h1> About Open Space </h1>
                 <p>  OpenSpace is and application in which users can collaborate on
                      the creation of 3D scenes or objects. 
-                     The idea is to facilitate the creation of 3D scenes without mush effort.
+                     The idea is to facilitate the creation of 3D scenes without mush effort on the part of the user.
                      The project is in very early development and there are only a couple of things one can do.
-                     In the scenes the users can add three kind of geometries, select a geometry to modify and remove geometries.
-                     Everything is done dynamically. </p>
+                     In the scene editor window the users can add three different kinds of geometries, select a object to modify or remove selected objects.
+                     All of the scene editing options are reactive. </p>
                 <p>
-                    <a href="/newScene" class="btn btn-primary btn-lg">Try it now!</a>
+                    {{#if currentUser}}
+                        <a href="/newScene" class="btn btn-primary btn-lg">Try it now!</a>
+                    {{else}}
+                        {{> loginButtons}}
+                    {{/if}}
                 </p>
             </div>
         </div> 
