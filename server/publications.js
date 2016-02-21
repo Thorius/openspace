@@ -3,7 +3,8 @@ Meteor.publish("scenes", function() {
     return Scenes.find({
         $or : [
             { private: false },
-            { ownerId: this.userId }
+            { ownerId: this.userId },
+            { editors: this.userId }
         ]
     });
 });
