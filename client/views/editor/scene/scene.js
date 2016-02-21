@@ -16,7 +16,7 @@ Template.scene.onCreated(function() {
     camera = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 0.1, 1000);
     cameraControls = new THREE.OrbitControls(camera);
     lastUpdate = null;
-})
+});
 
 Template.scene.onRendered(function(){
     // Add the current scene id to the Three.js scene object
@@ -65,6 +65,11 @@ Template.scene.onDestroyed(function(){
     var currentSceneId = Session.get("currentSceneId");
     var removeFilter = { sceneId: currentSceneId, geometryConstructor: "none" };
     Meteor.call("removeMeshes", removeFilter);
+    // Make the threejs variables null
+    renderer = null;
+    scene = null;
+    camera = null;
+    cameraControls = null
 });
 
 Template.scene.events({ 
